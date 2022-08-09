@@ -1,30 +1,19 @@
 import { AppProps } from 'next/app';
-import { createGlobalStyle, ThemeProvider } from 'styled-components';
-
-const GlobalStyle = createGlobalStyle`
-  body {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-`;
-
-const theme = {
-  colors: {
-    powderWhite: '#FFFDF9',
-    persianGreen: '#06B49A',
-    lightBlue: '#AFDBD2',
-    onyx: '#36313D',
-  },
-  fonts: ['sans-serif', 'Roboto'],
-  fontSizes: {
-    small: '1em',
-    medium: '2em',
-    large: '3em',
-  },
-};
+import { useState } from 'react';
+import { ThemeProvider } from 'styled-components';
+import { GlobalStyle } from '../styles/global';
+import { theme } from '../styles/theme/theme';
 
 export default function App({ Component, pageProps }: AppProps) {
+  const [switchTheme, setSwitchTheme] = useState(() => {
+    if (window.localStorage.getItem('Theme')) {
+      return window.localStorage.getItem('Theme');
+    } else {
+      window.localStorage.setItem('THEME', 'light');
+      return 'light';
+    }
+  });
+
   return (
     <>
       <GlobalStyle />
