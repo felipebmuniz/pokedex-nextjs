@@ -1,8 +1,16 @@
 export const themeDark = {
   colors: {
-    powderWhite: '#FFFDF9',
-    persianGreen: '#06B49A',
-    lightBlue: '#AFDBD2',
-    onyx: '#36313D',
+    primary: '#2D3142',
+    secondary: '#BFC0C0',
+    text: '#EF8354',
+    textLight: '#FFFFFF',
+    container: '#4F5D75',
+    background: '#2E2F2F',
+  },
+  fonts: ['sans-serif', 'Roboto'],
+  fontSizes: {
+    small: '1em',
+    medium: '2em',
+    large: '3em',
   },
 };

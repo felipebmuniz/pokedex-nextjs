@@ -1,24 +1,46 @@
 import { AppProps } from 'next/app';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyle } from '../styles/global';
-import { theme } from '../styles/theme/theme';
+import { getStorageTheme } from '../styles/theme/theme';
 
 export default function App({ Component, pageProps }: AppProps) {
-  const [switchTheme, setSwitchTheme] = useState(() => {
-    if (window.localStorage.getItem('Theme')) {
-      return window.localStorage.getItem('Theme');
+  const [switchTheme, setSwitchTheme] = useState<string | null>();
+
+  useEffect(() => {
+    let store;
+    if (window.localStorage.getItem('THEME')) {
+      store = window?.localStorage?.getItem('THEME');
+      setSwitchTheme(store);
     } else {
       window.localStorage.setItem('THEME', 'light');
-      return 'light';
+      setSwitchTheme('light');
     }
-  });
+  }, []);
+
+  useEffect(() => {
+    console.log('Aqui');
+  }, [switchTheme]);
 
   return (
     <>
-      <GlobalStyle />
-      <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
+      <ThemeProvider theme={() => getStorageTheme(switchTheme)}>
+        <button
+          onClick={() => {
+            if (switchTheme == 'light') {
+              window.localStorage.setItem('THEME', 'dark');
+              setSwitchTheme('dark');
+            } else if (switchTheme == 'dark') {
+              window.localStorage.setItem('THEME', 'light');
+              setSwitchTheme('light');
+            }
+          }}
+        >
+          {' '}
+          Troca de Theme
+        </button>
+        <GlobalStyle />
+        <Component {...pageProps} setSwitchTheme={setSwitchTheme} />
       </ThemeProvider>
     </>
   );
